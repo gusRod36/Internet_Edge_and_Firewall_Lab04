@@ -14,8 +14,26 @@ TNARC's HQ has no internet connection yet. Staff need web access, and clients ne
 8. New edge devices follow the Stage 2 and Stage 3 baselines.
 
 ## Topology Changes
+| Device | Model | Role | Connects to |
+|--------|-------|------|-------------|
+| ISP1-RTR | ISR 4331 | Simulated Internet Service Provider 1 | Edge-RTR |
+| ISP2-RTR | ISR 4331 | Simulated Internet Service Provider 2 | Edge-RTR |
+| Edge-RTR | 2911 | eBGP to both ISPs | ISP1, ISP2, ASA outside | 
+| ASA | 5506-X | Perimeter firewall | Edge-RTR, Core-1, Core-2, DMZ-SW |
+| DMZ-SW | 3650 | 
 
 ## Network Addressing
+
+| Device | Port | | Device | Port | Subnet | Autonomous System |
+|--------|------|-|--------|------|--------|-------------------|
+| ISP1-RTR | g0/0/0 | -> | Edge-RTR | g0/0 | 198.51.100.0/30 | 65001 |
+| ISP2-RTR | g0/0/0 | -> | Edge-RTR | g0/1 | 198.51.100.4/30 | 65002 |
+| Edge-RTR | g0/0 | -> | ISP1-RTR | g0/0/0 | 198.51.100.0/30 | 65100 |
+| Edge-RTR | g0/1 | -> | ISP2-RTR | g0/0/0 | 198.51.100.4/30 | 65100 |
+| Edge-RTR | g0/2 | -> | ASA 5506 | g1/1 | 10.0.250.0/30 |
+| ASA 5506 | g1/1 | -> | Edge-RTR | g0/2 | 10.0.250.0/30 |
+| ASA 5506 | g1/2 | -> | Core-1 | g1/0/7 | 10.0.255.52/30 |
+| ASA 5506 | g1/3 | -> | Core-2 | g1/0/7 | 10.0.255.56/30 |
 
 ## Traffic-Flow Matrix
 
