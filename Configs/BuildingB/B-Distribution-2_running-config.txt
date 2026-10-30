@@ -1,0 +1,319 @@
+!
+version 16.3.2
+service timestamps log datetime msec
+service timestamps debug datetime msec
+service password-encryption
+!
+hostname B-Distribution-2
+!
+!
+no profinet
+enable secret 9 $9$J19FIAftPZf7c3$v/bHRw4JpMY4TxTbnbhmqjWTsu3BrY6JB/RGYzupB1I
+!
+!
+!
+!
+!
+aaa new-model
+!
+aaa authentication login default group tacacs+ local 
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+ip routing
+!
+no ipv6 cef
+!
+!
+!
+username localadmin secret 5 $1$mERr$Jd.F1u8qRyWXFszq5SldR1
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+ip ssh time-out 60
+ip domain-name TNARC.com
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree vlan 130,199 priority 20480
+spanning-tree vlan 110,120 priority 28672
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.0.254.6 255.255.255.255
+!
+interface Port-channel10
+ switchport trunk native vlan 777
+ switchport trunk allowed vlan 100,110,120,130,199,777
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/1
+ no switchport
+ ip address 10.0.255.14 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet1/0/2
+ no switchport
+ ip address 10.0.255.22 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet1/0/3
+ switchport trunk native vlan 777
+ switchport trunk allowed vlan 100,130,199,777
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/4
+ switchport trunk native vlan 777
+ switchport trunk allowed vlan 100,110,120,777
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/5
+ switchport trunk native vlan 777
+ switchport trunk allowed vlan 100,110,120,130,199,777
+ switchport mode trunk
+ channel-protocol lacp
+ channel-group 10 mode active
+!
+interface GigabitEthernet1/0/6
+ switchport trunk native vlan 777
+ switchport trunk allowed vlan 100,110,120,130,199,777
+ switchport mode trunk
+ channel-protocol lacp
+ channel-group 10 mode active
+!
+interface GigabitEthernet1/0/7
+ no switchport
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface GigabitEthernet1/0/8
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/9
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/10
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/11
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/12
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/13
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/14
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/15
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/16
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/17
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/18
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/19
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/20
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/21
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/22
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/23
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/24
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/1/1
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/1/2
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/1/3
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/1/4
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan100
+ mac-address 00d0.ff5d.5e01
+ ip address 10.0.100.67 255.255.255.192
+ standby 100 ip 10.0.100.65
+ standby 100 priority 90
+!
+interface Vlan110
+ mac-address 00d0.ff5d.5e02
+ ip address 10.0.110.3 255.255.255.0
+ ip helper-address 10.10.200.10
+ ip helper-address 10.0.200.10
+ standby 110 ip 10.0.110.1
+!
+interface Vlan120
+ mac-address 00d0.ff5d.5e03
+ ip address 10.0.120.3 255.255.255.0
+ ip helper-address 10.10.200.10
+ ip helper-address 10.0.200.10
+ standby 120 ip 10.0.120.1
+ standby 120 priority 90
+!
+interface Vlan130
+ mac-address 00d0.ff5d.5e04
+ ip address 10.0.130.2 255.255.255.0
+ ip helper-address 10.10.200.10
+ ip helper-address 10.0.200.10
+ standby 130 ip 10.0.130.1
+ standby 130 priority 150
+ standby 130 preempt
+!
+interface Vlan199
+ mac-address 00d0.ff5d.5e05
+ ip address 10.0.199.2 255.255.255.0
+ ip helper-address 10.10.200.10
+ ip helper-address 10.0.200.10
+ standby 199 ip 10.0.199.1
+ standby 199 priority 150
+ standby 199 preempt
+!
+router ospf 10
+ log-adjacency-changes
+ passive-interface GigabitEthernet1/0/3
+ passive-interface GigabitEthernet1/0/4
+ passive-interface Loopback0
+ passive-interface Vlan100
+ passive-interface Vlan110
+ passive-interface Vlan120
+ passive-interface Vlan130
+ passive-interface Vlan199
+ network 10.0.255.12 0.0.0.3 area 0
+ network 10.0.255.20 0.0.0.3 area 0
+ network 10.0.110.0 0.0.0.255 area 2
+ network 10.0.120.0 0.0.0.255 area 2
+ network 10.0.130.0 0.0.0.255 area 2
+ network 10.0.199.0 0.0.0.255 area 2
+ network 10.0.254.6 0.0.0.0 area 2
+ network 10.0.100.64 0.0.0.63 area 2
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+ip access-list extended SSH_Management
+ permit tcp 10.0.99.0 0.0.0.255 any eq 22
+ permit tcp 10.0.199.0 0.0.0.255 any eq 22
+!
+banner motd z
+WARNING! Access is restricted and monitored. z
+!
+tacacs-server host 10.0.200.20
+tacacs-server key tacacskey
+!
+!
+!
+logging trap debugging
+logging 10.0.200.35
+line con 0
+ exec-timeout 5 0
+ login authentication default
+!
+line aux 0
+!
+line vty 0 4
+ access-class SSH_Management in
+ exec-timeout 5 0
+ login authentication default
+ transport input ssh
+line vty 5 15
+ access-class SSH_Management in
+ exec-timeout 5 0
+ login authentication default
+ transport input ssh
+!
+!
+!
+ntp server 10.0.200.35
+ntp update-calendar
+!
+end
+

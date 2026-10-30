@@ -1,0 +1,204 @@
+!
+version 15.0
+service timestamps log datetime msec
+service timestamps debug datetime msec
+service password-encryption
+!
+hostname A-Access-SW2
+!
+enable secret 5 $1$mERr$3i0mnXGFtXuJXPehQWU5a.
+!
+!
+!
+!
+!
+aaa new-model
+!
+aaa authentication login default group tacacs+ local 
+!
+!
+!
+!
+ip ssh version 2
+ip ssh time-out 60
+ip domain-name TNARC.com
+!
+username localadmin secret 5 $1$mERr$Jd.F1u8qRyWXFszq5SldR1
+!
+ip arp inspection vlan 30,99
+ip arp inspection validate src-mac dst-mac ip
+!
+ip dhcp snooping vlan 10,20,30,99
+no ip dhcp snooping information option
+ip dhcp snooping
+!
+spanning-tree mode rapid-pvst
+spanning-tree portfast bpduguard default
+spanning-tree extend system-id
+spanning-tree vlan 30,99 priority 24576
+!
+interface FastEthernet0/1
+ switchport access vlan 30
+ switchport mode access
+ switchport port-security
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 00E0.B002.34A3
+!
+interface FastEthernet0/2
+ switchport access vlan 30
+ switchport mode access
+ switchport port-security
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 0060.3E2B.7D54
+!
+interface FastEthernet0/3
+ switchport access vlan 99
+ switchport mode access
+ switchport port-security
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 0001.43D0.DA16
+!
+interface FastEthernet0/4
+ switchport access vlan 99
+ switchport mode access
+ switchport port-security
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 0002.167E.E7BB
+!
+interface FastEthernet0/5
+ switchport access vlan 99
+ switchport mode access
+ switchport port-security
+!
+interface FastEthernet0/6
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/7
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/8
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/9
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/10
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/11
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/12
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/13
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/14
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/15
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/16
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/17
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/18
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/19
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/20
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/21
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/22
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/23
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/24
+ switchport access vlan 999
+ shutdown
+!
+interface GigabitEthernet0/1
+ switchport trunk native vlan 777
+ switchport trunk allowed vlan 30,99-100,777
+ ip arp inspection trust
+ ip dhcp snooping trust
+ switchport mode trunk
+!
+interface GigabitEthernet0/2
+ switchport trunk native vlan 777
+ switchport trunk allowed vlan 30,99-100,777
+ ip arp inspection trust
+ ip dhcp snooping trust
+ switchport mode trunk
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan100
+ ip address 10.0.100.12 255.255.255.192
+!
+ip default-gateway 10.0.100.1
+!
+banner motd z
+WARNING! Access is restricted and monitored. z
+logging trap debugging
+logging 10.0.200.35
+tacacs-server host 10.0.200.20
+tacacs-server key tacacskey
+!
+!
+!
+ip access-list extended SSH_Management
+ permit tcp 10.0.99.0 0.0.0.255 any eq 22
+ permit tcp 10.0.199.0 0.0.0.255 any eq 22
+line con 0
+ login authentication default
+ exec-timeout 5 0
+!
+line vty 0 4
+ access-class SSH_Management in
+ exec-timeout 5 0
+ login authentication default
+ transport input ssh
+line vty 5 15
+ access-class SSH_Management in
+ exec-timeout 5 0
+ login authentication default
+ transport input ssh
+!
+!
+!
+ntp server 10.0.200.35
+!
+end
+

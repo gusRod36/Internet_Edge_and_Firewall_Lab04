@@ -1,0 +1,142 @@
+!
+version 15.1
+service timestamps log datetime msec
+service timestamps debug datetime msec
+service password-encryption
+!
+hostname Edge-RTR
+!
+!
+!
+enable secret 5 $1$mERr$3i0mnXGFtXuJXPehQWU5a.
+!
+!
+!
+!
+!
+aaa new-model
+!
+aaa authentication login default group tacacs+ local 
+!
+!
+!
+!
+clock timezone CST -5
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+!
+username localadmin secret 5 $1$mERr$Jd.F1u8qRyWXFszq5SldR1
+!
+!
+license udi pid CISCO2911/K9 sn FTX1524S4BH-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+ip ssh time-out 60
+ip domain-name TNARC.com
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ ip address 198.51.100.1 255.255.255.252
+ ip nat outside
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ ip address 198.51.100.5 255.255.255.252
+ ip nat outside
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ ip address 10.0.250.1 255.255.255.252
+ ip nat inside
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router bgp 65100
+ bgp log-neighbor-changes
+ no synchronization
+ neighbor 198.51.100.2 remote-as 65001
+ neighbor 198.51.100.6 remote-as 65002
+ network 203.0.113.0 mask 255.255.255.240
+!
+ip nat pool PUBLIC 203.0.113.1 203.0.113.10 netmask 255.255.255.240
+ip nat inside source list NAT-USERS pool PUBLIC overload
+ip nat inside source static 10.0.210.10 203.0.113.11 
+ip nat inside source static 10.0.210.11 203.0.113.12 
+ip classless
+ip route 0.0.0.0 0.0.0.0 198.51.100.2 
+ip route 0.0.0.0 0.0.0.0 198.51.100.6 250
+ip route 10.0.0.0 255.255.0.0 10.0.250.2 
+ip route 203.0.113.0 255.255.255.240 Null0 
+!
+ip flow-export version 9
+!
+!
+ip access-list extended SSH_Management
+ permit tcp 10.0.99.0 0.0.0.255 any eq 22
+ permit tcp 10.0.199.0 0.0.0.255 any eq 22
+ip access-list standard NAT-USERS
+ deny 10.0.210.0 0.0.0.255
+ permit 10.0.0.0 0.0.255.255
+!
+banner motd z
+WARNING! Access is restricted and monitored. z
+!
+tacacs-server host 10.0.200.20
+tacacs-server key tacacskey
+!
+!
+!
+logging trap debugging
+logging 10.0.200.35
+line con 0
+ exec-timeout 5 0
+ login authentication default
+!
+line aux 0
+!
+line vty 0 4
+ access-class SSH_Management in
+ exec-timeout 5 0
+ login authentication default
+ transport input ssh
+line vty 5 15
+ access-class SSH_Management in
+ exec-timeout 5 0
+ login authentication default
+ transport input ssh
+!
+!
+ntp server 10.0.200.35
+ntp update-calendar
+!
+end
+
