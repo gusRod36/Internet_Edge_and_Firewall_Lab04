@@ -75,6 +75,20 @@ TNARC's HQ has no internet connection yet. Staff need web access, and clients ne
 
 
 ## Verification
+| # | Proves | Test | Expected | Evidence |
+|---|--------|------|----------|----------|
+| 1 | R1 | An inside user PC pings and browses Internet-SRV-1 and SRV-2 (sit behind ISPs for test only) | Success | |
+| 2 | R2 | Failover and fallback | Path moves to ISP2, then back to ISP1 | |
+| 3 | R3 | Show ip nat translations on Edge-RTR | 10.0.0.0/16 -> 203.0.113.0/28 | |
+| 4 | R3 | Packet shows 10.0.X.X inside and 203.0.113.0/28 outside | Success | |
+| 5 | R4 | BGP state, Edge-RTR: show ip bgp summary, show ip bgp. ISP1/2 show ip route | Both neighbors up with prefix counts and both ISPs show B 203.0.113.0/28 | |
+| 6 | R5 | Internet-PC pings 203.0.113.11, tries to reach 203.0.113.1 | All fail, the ASA denies any | |
+| 7 | R5 | Internet-PC browses http://203.0.113.11, resolves www.tnarc.example using 203.0.113.12 as its DNS server | both work | |
+| 8 | R6 | From Web-SRV ping inside a pc, from DMZ-SW run telnet to 10.0.200.20 49 | Both fail | 
+| 9 | Flow 2 | Internal PC browses http://10.0.210.10 and www.tnarc.lan | Success | |
+| 10 | Flows 10-12 | SSH to Edge-RTR with admin credentials, logs report the log in, ping inside pc from Edge-RTR | Login and log work, ping fails | |
+| 11 | R8 | SSH to the ASA from the Management vlan, login to DMZ-SW locally | Baseline standard met | |
+| 12 | R5-7 | Show access-list on ASA | Every permit and deny line matches the tests | |
 
 ## Challenges and Fixes
 #### 1. ISR 4331 had too few ports for Edge-RTR
