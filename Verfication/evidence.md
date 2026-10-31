@@ -1,3 +1,7 @@
+# Temporarily using test environment
+<img src="../Images/temporary_testing_setup.JPG" alt="" width="650">
+
+
 ## 1
 
 ## 2
@@ -6,8 +10,6 @@
 <img src="../Images/verifications/verification_2_ISP1_back_to_active.JPG" alt="" width="650">
 <img src="../Images/verifications/verification_2_Ping_ISP1_goesUP_ISP2_backup.JPG" alt="" width="650">
 <img src="../Images/verifications/verification_2_ISP2_goes_to_backup.JPG" alt="" width="650">
-
-
 
 
 ## 3
