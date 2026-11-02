@@ -2,6 +2,7 @@ ASA Version 9.6(1)
 !
 hostname ASA-1
 domain-name write
+enable password 8B77j93QpB0Br40S encrypted
 names
 !
 interface GigabitEthernet1/1
@@ -60,18 +61,25 @@ route outside 0.0.0.0 0.0.0.0 10.0.250.1 1
 route inside1 10.0.0.0 255.255.0.0 10.0.255.61 1
 route inside2 10.0.0.0 255.255.0.0 10.0.255.57 100
 !
-access-list OUTSIDE-IN extended permit tcp any host 10.0.210.10 eq www
-access-list OUTSIDE-IN extended permit tcp any host 10.0.210.10 eq 443
-access-list OUTSIDE-IN extended permit udp any host 10.0.210.11 eq domain
 access-list OUTSIDE-IN extended permit tcp host 10.0.250.1 host 10.0.200.20 eq 49
 access-list OUTSIDE-IN extended permit udp host 10.0.250.1 host 10.0.200.35 eq 123
 access-list OUTSIDE-IN extended permit udp host 10.0.250.1 host 10.0.200.35 eq 514
 access-list OUTSIDE-IN extended permit udp host 10.0.250.1 host 10.0.200.35 eq tftp
+access-list OUTSIDE-IN extended permit udp any host 10.0.210.10 eq domain
+access-list OUTSIDE-IN extended permit tcp any host 10.0.210.11 eq www
+access-list OUTSIDE-IN extended permit tcp any host 10.0.210.11 eq 443
 access-list OUTSIDE-IN extended deny ip any any
+access-list DMZ-IN extended permit tcp any host 10.0.210.11 eq www
+access-list DMZ-IN extended permit tcp any host 10.0.210.11 eq 443
+access-list DMZ-IN extended permit udp any host 10.0.210.10 eq domain
 !
 !
 access-group OUTSIDE-IN in interface outside
+access-group DMZ-IN out interface dmz
+aaa authentication ssh console LOCAL
 !
+ntp server 10.0.200.35
+username admin1 password 8B77j93QpB0Br40S encrypted
 username netadmin password XX.btPm8aK68SADe encrypted
 !
 class-map inspection_default
@@ -84,12 +92,17 @@ policy-map global_policy
  class inspection_default
   inspect dns preset_dns_map
   inspect ftp 
+  inspect http 
   inspect icmp 
   inspect tftp 
 !
 service-policy global_policy global
 !
 telnet timeout 5
+ssh 10.0.99.0 255.255.255.0 inside1
+ssh 10.0.199.0 255.255.255.0 inside1
+ssh 10.0.99.0 255.255.255.0 inside2
+ssh 10.0.199.0 255.255.255.0 inside2
 ssh timeout 5
 !
 !

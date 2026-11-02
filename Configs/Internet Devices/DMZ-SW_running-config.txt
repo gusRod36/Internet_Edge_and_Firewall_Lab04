@@ -22,6 +22,7 @@ aaa authentication login default local
 ip ssh version 2
 ip ssh time-out 60
 ip domain-name TNARC.com
+ip name-server 10.0.210.10
 !
 username admin1 secret 5 $1$mERr$RYRRnej5w6.KNuMfZTOIB/
 username admin2 secret 5 $1$mERr$d58/KlNuX.gXynSJWOPfR.
@@ -37,67 +38,122 @@ interface FastEthernet0/1
  switchport mode access
  switchport port-security
  switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 0090.21A9.A148
+ spanning-tree portfast
+ spanning-tree bpduguard enable
 !
 interface FastEthernet0/2
  switchport access vlan 210
  switchport mode access
  switchport port-security
  switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 0002.1618.E103
+ spanning-tree portfast
+ spanning-tree bpduguard enable
 !
 interface FastEthernet0/3
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/4
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/5
+ switchport access vlan 999
+ switchport mode access
+ shutdown
 !
 interface FastEthernet0/6
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/7
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/8
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/9
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/10
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/11
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/12
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/13
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/14
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/15
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/16
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/17
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/18
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/19
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/20
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/21
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/22
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/23
+ switchport access vlan 999
+ shutdown
 !
 interface FastEthernet0/24
+ switchport access vlan 999
+ shutdown
 !
 interface GigabitEthernet0/1
+ switchport access vlan 210
+ switchport mode access
 !
 interface GigabitEthernet0/2
+ switchport access vlan 999
+ shutdown
 !
 interface Vlan1
  no ip address
  shutdown
 !
 interface Vlan100
- ip address 10.0.210.2 255.255.255.0
+ no ip address
 !
 ip default-gateway 10.0.210.1
 !

@@ -6,6 +6,7 @@ service password-encryption
 !
 hostname Edge-RTR
 !
+logging userinfo
 !
 !
 enable secret 5 $1$mERr$3i0mnXGFtXuJXPehQWU5a.
