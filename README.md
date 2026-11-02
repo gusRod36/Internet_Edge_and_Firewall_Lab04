@@ -41,10 +41,10 @@ TNARC's HQ has no internet connection yet. Staff need web access, and clients ne
 ## Traffic-Flow Matrix
 | # | Source | Destination | Service | Expected | Result |
 |---|--------|-------------|---------|----------|--------|
-| 1 | Inside Users | Internet | Web (HTTP/HTTPS) | Allow | |
-| 2 | Inside Users | DMZ Web-SRV | HTTP/HTTPS | Allow | |
-| 3 | Internet | Web-SRV (public IP) | HTTP/HTTPS | Allow | |
-| 4 | Internet | DNS-Pub | DNS | Allow | |
+| 1 | Inside Users | Internet | Web (HTTP/HTTPS) | Allow | Success |
+| 2 | Inside Users | DMZ Web-SRV | HTTP/HTTPS | Allow | Success |
+| 3 | Internet | Web-SRV (public IP) | HTTP/HTTPS | Allow | Success |
+| 4 | Internet | DNS-Pub | DNS | Allow | Success |
 | 5 | Internet | Inside | Anything | Deny | Success |
 | 6 | DMZ | Inside | Anything | Deny | Success |
 | 7 | Management VLAN | ASA/Edge-RTR | SSH | Allow | Success |
