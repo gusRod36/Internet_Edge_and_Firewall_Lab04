@@ -45,15 +45,15 @@ TNARC's HQ has no internet connection yet. Staff need web access, and clients ne
 | 2 | Inside Users | DMZ Web-SRV | HTTP/HTTPS | Allow | |
 | 3 | Internet | Web-SRV (public IP) | HTTP/HTTPS | Allow | |
 | 4 | Internet | DNS-Pub | DNS | Allow | |
-| 5 | Internet | Inside | Anything | Deny | |
-| 6 | DMZ | Inside | Anything | Deny | |
-| 7 | Management VLAN | ASA/Edge-RTR | SSH | Allow | |
-| 8 | Anyone else | ASA/Edge-RTR | SSH | Deny | |
-| 9 | Edge-RTR | AAA-Server | TCP 49 (TACACS+) | Allow | |
-| 10 | Edge-RTR | Syslog/NTP/TFTP | UDP 514/123/69 | Allow | |
-| 11 | Edge-RTR | Inside hosts | ICMP echo | Deny | |
-| 12 | DMZ-SW | AAA-Server | TCP 49 | Deny | |
-| 13 | DMZ-Server | Inside | Anything | Deny | |
+| 5 | Internet | Inside | Anything | Deny | Success |
+| 6 | DMZ | Inside | Anything | Deny | Success |
+| 7 | Management VLAN | ASA/Edge-RTR | SSH | Allow | Success |
+| 8 | Anyone else | ASA/Edge-RTR | SSH | Deny | Success |
+| 9 | Edge-RTR | AAA-Server | TCP 49 (TACACS+) | Allow | Success |
+| 10 | Edge-RTR | Syslog/NTP/TFTP | UDP 514/123/69 | Allow | Success |
+| 11 | Edge-RTR | Inside hosts | ICMP echo | Deny | Success |
+| 12 | DMZ-SW | AAA-Server | TCP 49 | Deny | Success |
+| 13 | DMZ-Server | Inside | Anything | Deny | Success |
 
 ## Key Decisions
 1. NAT runs on the Edge-RTR, not the ASA. Packet Tracer's ASA only supports PAT to its own interface address. Its outside interface uses a private transit address, which cannot be used for internet traffic. With NAT on Edge-RTR, the ASA becomes purely a policy device, its rules and logs see real internet addresses. 
@@ -77,15 +77,15 @@ TNARC's HQ has no internet connection yet. Staff need web access, and clients ne
 ## Verification
 | # | Proves | Test | Expected | Evidence |
 |---|--------|------|----------|----------|
-| 1 | R1 | An inside user PC pings and browses Internet-SRV-1 and SRV-2 (sit behind ISPs for test only) | Success | |
+| 1 | R1 | An inside user PC pings and browses Internet-SRV-1 and SRV-2 (sit behind ISPs for test only) | Success | [Verification 1](./Verfication/evidence.md#1) |
 | 2 | R2 | Failover and fallback | Path moves to ISP2, then back to ISP1 | [Verification 2](./Verfication/evidence.md#2) |
 | 3 | R3 | Show ip nat translations on Edge-RTR | 10.0.0.0/16 -> 203.0.113.0/28 | [Verification 3](./Verfication/evidence.md#3) |
 | 4 | R3 | Packet shows 10.0.X.X inside and 203.0.113.0/28 outside | Success | [Verification 4](./Verfication/evidence.md#4) |
 | 5 | R4 | BGP state, Edge-RTR: show ip bgp summary, show ip bgp. ISP1/2 show ip route | Both neighbors up with prefix counts and both ISPs show B 203.0.113.0/28 | [Verification 5](./Verfication/evidence.md#5) |
 | 6 | R5 | Internet-PC pings 203.0.113.11, tries to reach 203.0.113.1 | All fail, the ASA denies any | [Verification 6](./Verfication/evidence.md#6) |
-| 7 | R5 | Internet-PC browses http://203.0.113.11, resolves www.tnarc.example using 203.0.113.12 as its DNS server | both work |  |
+| 7 | R5 | Internet-PC browses http://203.0.113.11, resolves www.tnarc.example using 203.0.113.12 as its DNS server | both work | [Verification 7](./Verfication/evidence.md#7)  |
 | 8 | R6 | From Web-SRV ping inside a pc, from DMZ-SW run telnet to 10.0.200.20 49 | Both fail | [Verification 8](./Verfication/evidence.md) |
-| 9 | Flow 2 | Internal PC browses http://10.0.210.10 and www.tnarc.lan | Success | |
+| 9 | Flow 2 | Internal PC browses http://10.0.210.11 and www.tnarc.lan | Success | [Verification 9](./Verfication/evidence.md#9) |
 | 10 | Flows 10-12 | SSH to Edge-RTR with admin credentials, logs report the log in, ping inside pc from Edge-RTR | Login and log work, ping fails | [Verification 10](./Verfication/evidence.md#10) |
 | 11 | R8 | SSH to the ASA from the Management vlan, login to DMZ-SW locally | Baseline standard met | [Verification 11](./Verfication/evidence.md#11) |
 | 12 | R5-7 | Show access-list on ASA | Every permit and deny line matches the tests | [Verification 12](./Verfication/evidence.md#12) |

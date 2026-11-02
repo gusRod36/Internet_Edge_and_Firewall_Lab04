@@ -3,6 +3,7 @@
 
 
 ## 1
+<img src="../Images/verifications/verification_1_inside_PC_pings_internet-server.JPG" alt="" width="650">
 
 ## 2
 <img src="../Images/verifications/verification_2_ISP2_goes_to_active.JPG" alt="" width="650">
@@ -32,7 +33,8 @@
 <img src="../Images/verifications/verification_6_ISP_PC_blocked_by_ASA.JPG" alt="" width="650">
 
 ## 7
-<img src="../Images/verifications/" alt="" width="650">
+<img src="../Images/verifications/verification_7_Internet_DMZWeb_IP.JPG" alt="" width="650">
+<img src="../Images/verifications/verification_7_Internet_DMZWeb_DNS.JPG" alt="" width="650">
 
 ## 8
 ##### Web-server pinging inside
@@ -42,6 +44,8 @@
 <img src="../Images/verifications/verification_8_dmzsw_telnet_fail.JPG" alt="" width="650">
 
 ## 9
+<img src="../Images/verifications/verification_9_flow2.JPG" alt="" width="650">
+<img src="../Images/verifications/verification_9_DNSresolve.JPG" alt="" width="650">
 
 ## 10
 ##### SSH'd into Edge-RTR via Management VLAN PC, using TNARCadmin01:admin123
